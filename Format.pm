@@ -6,7 +6,7 @@ use strict;
 
 use Exporter;
 
-$Locale::Currency::Format::VERSION = '1.30';
+$Locale::Currency::Format::VERSION = '1.31';
 
 @Locale::Currency::Format::ISA     = qw(Exporter);
 @Locale::Currency::Format::EXPORT  = qw(
