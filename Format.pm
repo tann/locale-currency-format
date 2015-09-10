@@ -6,7 +6,7 @@ use strict;
 
 use Exporter;
 
-$Locale::Currency::Format::VERSION = '1.32';
+$Locale::Currency::Format::VERSION = '1.34';
 
 @Locale::Currency::Format::ISA     = qw(Exporter);
 @Locale::Currency::Format::EXPORT  = qw(
@@ -57,6 +57,7 @@ my ($name, $frac_len, $thou_sep, $dec_sep,
 
 my %original;
 my %currency;
+my @currency_codes;
 
 *::_error = \$Locale::Currency::Format::error; 
 
@@ -134,6 +135,32 @@ sub currency_symbol {
     }
 
     return $sym;
+}
+
+sub currency_name {
+    my ( $code ) = @_;
+
+    if ( !defined $code ) {
+        $::_error = 'Undefined currency code';
+        return;
+    }
+
+    my $cur = $currency{ uc $code };
+    if ( !$cur ) {
+        $::_error = 'Invalid currency code';
+        return;
+    }
+
+    my $name =  $cur->[0];
+    if ( !$name ) {
+        $::_error = 'Non-existant currency name';
+        return;
+    }
+    return $name;
+}
+
+sub currency_list {
+    return \@currency_codes;
 }
 
 sub decimal_precision {
@@ -229,6 +256,7 @@ sub currency_set {
 
     if (!$tmpl) {
         $currency{$ucc} = $original{$ucc} if $original{$ucc};
+        @currency_codes = keys %currency;
         return $ucc;
     }
 
@@ -270,6 +298,7 @@ sub currency_set {
             $cur->[$com_sym] = $2;    
         }
     }
+    @currency_codes = keys %currency;
     return $ucc;
 }
 
@@ -537,7 +566,7 @@ ZMK => ["Kwacha",0,$EMPTY,$EMPTY,"",$EMPTY,$EMPTY,$EMPTY,$EMPTY],
 ZRN => ["New Zaire",$EMPTY,$EMPTY,$EMPTY,$EMPTY,$EMPTY,$EMPTY,$EMPTY,$EMPTY],
 ZWD => ["Zimbabwe Dollar ",2," ",".","","\x{0024}","&#x0024;","Z\$",1],
 );
-
+@currency_codes = keys %currency;
 
 1;
 
@@ -640,6 +669,14 @@ Default is a Unicode-based character. Upon failure, it returns I<undef> and an e
         SYM_UTF  returns the symbol (if exists) as an Unicode
 		 character
         SYM_HTML returns the symbol (if exists) as a HTML escape
+
+=item C<currency_name(CODE)>
+
+For conveniences, the function B<currency_name> is provided for currency name
+lookup given a 3-letter currency code. Upon failure, it returns I<undef> and an error message is stored in B<$Locale::Currency::Format::error>.
+
+    CODE
+        A 3-letter currency code as specified in ISO 4217
 
 =item C<decimal_precision(CODE)>
 
