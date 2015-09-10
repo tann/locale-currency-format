@@ -1,6 +1,6 @@
 #!/bin/perl
 
-use Test::More tests => 28;
+use Test::More tests => 26;
 
 BEGIN {
 	use_ok('Locale::Currency::Format');
