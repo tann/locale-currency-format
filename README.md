@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tann/locale-currency-format.svg?branch=master)](https://travis-ci.org/tann/locale-currency-format)
+
 #### NAME
 **Locale::Currency::Format** - Perl functions for formatting monetary values
 
