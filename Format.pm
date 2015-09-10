@@ -11,11 +11,12 @@ $Locale::Currency::Format::VERSION = '1.34';
 @Locale::Currency::Format::ISA     = qw(Exporter);
 @Locale::Currency::Format::EXPORT  = qw(
     currency_format
+    currency_name
+    currency_set
     currency_symbol
     decimal_precision
     decimal_separator
     thousands_separator
-    currency_set
     FMT_NOZEROS
     FMT_STANDARD
     FMT_COMMON
