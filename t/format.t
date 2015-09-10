@@ -1,87 +1,34 @@
+#!/bin/perl
 
-BEGIN { $| = 1; print "1..27\n"; }
-END   { print "not ok 1\n" unless $loaded; }
+use Test::More tests => 28;
 
-use Locale::Currency::Format;
-
-$loaded = 1;
-
-print "ok 1\n";
-
-print "not " unless currency_format('usd', 1000) eq '1,000.00 USD';
-print "ok 2\n";
-
-print "not " unless currency_format('usd', 1000, FMT_NOZEROS) eq '1,000 USD';
-print "ok 3\n";
-
-print "not " unless currency_format('usd', 1000, FMT_HTML) eq '&#x0024;1,000.00';
-print "ok 4\n";
-
-print "not " unless currency_format('usd', 1000, FMT_NAME) eq "1,000.00 US Dollar";
-print "ok 5\n";
-
-print "not " unless currency_format('usd', 1000, FMT_SYMBOL) eq "\x{0024}1,000.00";
-print "ok 6\n";
-
-print "not " if currency_format('usd');
-print "ok 7\n";
-
-print "not " if currency_format();
-print "ok 8\n";
-
-print "not " if currency_format('us', 1000);
-print "ok 9\n";
-
-print "not " unless currency_symbol('vnd', SYM_UTF)  eq "\x{20AB}";
-print "ok 10\n";
-
-print "not " unless currency_symbol('vnd', SYM_HTML) eq "&#x20AB;";
-print "ok 11\n";
-
-print "not " if currency_symbol();
-print "ok 12\n";
-
-print "not " if currency_symbol('usd', 10);
-print "ok 13\n";
-
-print "not " if currency_symbol('vn');
-print "ok 14\n";
-
-print "not " if currency_symbol('aed');
-print "ok 15\n";
-
-print "not " unless currency_set('USD', '#.###,## $', FMT_COMMON);
-print "ok 16\n";
-
-print "not " unless currency_format('USD', 1000, FMT_COMMON) eq '1.000,00 $';
-print "ok 17\n";
-
-print "not " unless currency_set('USD');
-print "ok 18\n";
-
-print "not " unless currency_format('USD', 1000, FMT_COMMON) eq '$1,000.00';
-print "ok 19\n";
-
-print "not " unless currency_set('GBP', "\x{00A3}#,###.##", FMT_COMMON);
-print "ok 20\n";
-
-print "not " unless currency_format('TRY', 10000) eq '10,000 TRY';
-print "ok 21\n";
-
-print 'not ' unless decimal_precision('usd') == 2;
-print "ok 22\n";
-
-print 'not ' unless decimal_precision('bhd') == 3;
-print "ok 23\n";
-
-print 'not ' unless decimal_separator('usd') eq '.';
-print "ok 24\n";
-
-print 'not ' unless decimal_separator('eur') eq ',';
-print "ok 25\n";
-
-print 'not ' unless thousands_separator('usd') eq ',';
-print "ok 26\n";
-
-print 'not ' unless thousands_separator('eur') eq '.';
-print "ok 27\n";
+BEGIN {
+	use_ok('Locale::Currency::Format');
+}
+is( currency_format( 'usd', 1000 ), '1,000.00 USD', "USD" );
+is( currency_format( 'usd', 1000, FMT_NOZEROS ), '1,000 USD',          "Format USD No Zeros" );
+is( currency_format( 'usd', 1000, FMT_HTML ),    '&#x0024;1,000.00',   "Format USD HTML" );
+is( currency_format( 'usd', 1000, FMT_NAME ),    "1,000.00 US Dollar", "Format USD Name" );
+is( currency_format( 'usd', 1000, FMT_SYMBOL ),  "\x{0024}1,000.00",   "Format USD Symbol" );
+is( currency_format('usd'), undef, "Not Blank" );
+is( currency_format(),      undef, "Not Blank" );
+is( currency_format( 'us', 1000 ), undef, "Check US" );
+is( currency_symbol( 'vnd', SYM_UTF ),  "\x{20AB}", "Check VND Symbol" );
+is( currency_symbol( 'vnd', SYM_HTML ), "&#x20AB;", "Check VND HTML" );
+is( currency_symbol(), undef, "Check symbol" );
+is( currency_symbol( 'usd', 10 ), undef, "Check USD symbol" );
+is( currency_symbol('vn'),  undef, "Check VN symbol" );
+is( currency_symbol('aed'), undef, "Check SED symbol" );
+is( currency_set( 'USD', '#.###,## $', FMT_COMMON ), 'USD', "Setting custom currency" );
+is( currency_format( 'USD', 1000, FMT_COMMON ), '1.000,00 $', "Check custom" );
+is( currency_set('USD'), 'USD', "Reset custom currency" );
+is( currency_format( 'USD', 1000, FMT_COMMON ), '$1,000.00', "Check custom reset is" );
+is( currency_set( 'GBP', "\x{00A3}#,###.##", FMT_COMMON ), 'GBP', "custom GBP" );
+is( decimal_precision('usd'),   2,                "Check USD decimal precision" );
+is( decimal_precision('bhd'),   3,                "Check BHD decimal precision" );
+is( decimal_separator('usd'),   '.',              "Check USD decimal seperator" );
+is( decimal_separator('eur'),   ',',              "Check EUR decimal seperator" );
+is( thousands_separator('usd'), ',',              "Check USD thousands seperator" );
+is( thousands_separator('eur'), '.',              "Check EUR thousands seperator" );
+is( currency_name('usd'),       'US Dollar',      "Check USD currency name" );
+is( currency_name('gbp'),       'Pound Sterling', "Check GBP currency name" );
