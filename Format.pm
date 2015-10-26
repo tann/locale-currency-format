@@ -6,7 +6,7 @@ use strict;
 
 use Exporter;
 
-$Locale::Currency::Format::VERSION = '1.34';
+$Locale::Currency::Format::VERSION = '1.35';
 
 @Locale::Currency::Format::ISA     = qw(Exporter);
 @Locale::Currency::Format::EXPORT  = qw(
@@ -633,7 +633,7 @@ stored in B<$Locale::Currency::Format::error>.
 
     CODE
         A 3-letter currency code as specified in ISO 4217.
-        Note that old code such as GBP, FRF and so on can also
+        Note that old code such as DEM, FRF and so on can also
         be valid.
 
     AMOUNT
@@ -792,17 +792,19 @@ Lastly, please refer to L<perluniintro> and L<perlunicode> for displaying Unicod
 
 L<Locale::Currency>, L<Math::Currency>, L<Number::Format>, L<perluniintro>, L<perlunicode>
 
-=head1 BUGS
+=head1 ISSUES
 
 Pull requests are greatly appreciated at https://github.com/tann/locale-currency-format
 
 =head1 CONTRIBUTOR(S)
 
+Please add your name to this list when sending a pull request.
+
 James Kiser <james.kiser@gmail.com>
 
 =head1 AUTHOR
 
-Tan D Nguyen <tnguyen@cpan.org>
+Tan D Nguyen <https://github.com/tann>
 
 =head1 COPYRIGHT
 
