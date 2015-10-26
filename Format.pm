@@ -766,6 +766,8 @@ For example
 
 will clear all previous custom settings for the US currency (ie. FMT_SYMBOL, FMT_HTML, FMT_COMMON).
 
+=back
+
 =head2 A WORD OF CAUTION
 
 Please be aware that some currencies might have missing common format. In that case, B<currency_format> will fall back to B<FMT_STANDARD> format.
@@ -801,6 +803,8 @@ Pull requests are greatly appreciated at https://github.com/tann/locale-currency
 Please add your name to this list when sending a pull request.
 
 James Kiser <james.kiser@gmail.com>
+
+Lars Wirzenius <lars@catalyst.net.nz>
 
 =head1 AUTHOR
 
